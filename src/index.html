@@ -21,7 +21,7 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="container" id="dashboard">
       <header class="logo-header">
         <div class="logo">
           <p>TimeScribe</p>
@@ -30,7 +30,7 @@
         <nav aria-label="Main Navigation" role="navigation" class="navbar">
           <ul class="nav-list">
             <li><a href="#dashboard" class="">Dashboard</a></li>
-            <li><a href="/analytics.html" class="">Analytics</a></li>
+            <li><a href="#analytics" class="">Analytics</a></li>
           </ul>
         </nav>
       </header>
@@ -70,7 +70,98 @@
       
       
     </div>
-  
+
+    <div class="analytics" id="analytics">
+      <div>
+        <header class="header-analytics">
+          <h1 class="title-analytics">Anayltics</h1>
+        </header>
+        
+      </div>
+      
+    
+      <div class="canvas-container" id="#analytics">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+    
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const loadChart = document.getElementById("myChart");
+      const tasks = getTasksFromLocalStorage();
+      const weekData = getWeekData(tasks);
+
+      new Chart(loadChart, {
+        type: "bar",
+        data: {
+          labels: weekData.dates,
+          datasets: [
+            {
+              label: "Hours Worked",
+              data: weekData.hours,
+              borderWidth: 2,
+              borderColor: "#21282c",
+              backgroundColor: "#6c88a7",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Hours Worked"
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Date"
+              }
+            }
+          }
+        }
+      });
+
+
+    function getTasksFromLocalStorage() {
+      return JSON.parse(localStorage.getItem("tasks")) || [];
+    }
+
+    function getWeekData(tasks) {
+      const today = new Date();
+      const dates = [];
+      const hours = [];
+
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateString = date.toISOString().split("T")[0];
+        dates.push(dateString);
+
+        let totalHours = 0;
+        tasks.forEach(task => {
+          if (task.taskDate === dateString) {
+            totalHours += calculateHours(task.timeStarted, task.timeStopped);
+          }
+        });
+        hours.push(totalHours.toFixed(2));
+      }
+
+      return { dates, hours };
+    }
+
+    function calculateHours(startTime, stopTime) {
+      const start = new Date(`1970-01-01T${startTime}`);
+      const stop = new Date(`1970-01-01T${stopTime}`);
+      const diff = stop.getTime() - start.getTime();
+      return diff / (1000 * 60 * 60); 
+    }
+  </script>
+    
     <script src="/js/index.js" type="module"></script>
   </body>
 </html>
