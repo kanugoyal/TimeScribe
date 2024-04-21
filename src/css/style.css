@@ -218,7 +218,7 @@ button {
   max-width: 800px;
   width: 100%;
   height: auto;
-  margin-left: 2rem;
+  margin: o, auto;
   padding: 1rem;
   background-color: #fff;
 }
@@ -239,6 +239,7 @@ button {
   .canvas-container {
     flex: none;
     padding: 5px;
+    margin-left: 2rem;
   }
 }
 #tasks-cards {
@@ -447,7 +448,6 @@ button {
   justify-content: flex-start;
   display: flex;
   font-weight: 700;
-  margin-left: 2.2rem;
   margin-bottom: 0.7rem;
   color: var(--grey-blue);
 
@@ -491,6 +491,11 @@ button {
     margin: 1rem;
     padding: 0.25rem;
   }
+
+  .title-analytics {
+    margin-left: 2.2rem;
+  }
+
 }
 
 @media screen and (min-width: 768px) and (max-width: 1000px){
@@ -540,6 +545,12 @@ button {
     width: 700px;
     margin: 1rem;
     padding: 0.25rem;
+  }
+
+  .canvas-container {
+    flex: none;
+    padding: 5px;
+    margin-left: 2rem;
   }
 
 }
