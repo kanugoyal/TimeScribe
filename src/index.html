@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="manifest" href="./../public/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="./../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./../public/favicon-16x16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="http://localhost:3001/index.html" />
+    <!--Need to change in future after deployment with deployment link-->
+    <meta property="og:site_name" content="TimeScribe Time Tracker" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TimeScribe" />
+    <meta
+      property="og:description"
+      content="A quick, easy, no sign-ups needed timesheet time tracking app designed as a part of Web development Hackathon."
+    />
+    <meta property="og:url" content="http://localhost:3001/index.html" />
+    <!--Need to change in future after deployment with deployment link-->
+    <title>TimeScribe</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="logo-header">
+        <div class="logo">
+          <img src="./../public/android-chrome-192x192.png" alt="TimeScribe" class="logo-img"> 
+          <p>TimeScribe</p>
+        </div>
+        
+        <nav aria-label="Main Navigation" role="navigation" class="navbar">
+          <ul class="nav-list">
+            <li><a href="#dashboard" class="">Dashboard</a></li>
+            <li><a href="/analytics.html" class="">Analytics</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="body-container">
+        <main class="main-container" id="dashboard">
+
+          <header class="header">
+            <h1 class="title">TimeScribe</h1>
+            <h4 class="subtitle">Write Your Time, Right Your Path.</h4>
+          </header>
+  
+          <form id="task-form" class="scribe-form">
+            <input type="text" name="task-input" id="task-input" placeholder="Scribe your task here..." />
+            <input type="date" id="task-date" required>
+            <button type="submit" id="task-submit" value="Add Task">Add Task </button>
+          </form>
+  
+          <section class="timesheet">
+            <!-- Timesheet entries will be dynamically added here -->
+          </section>
+          
+          <section id="task-list" class="task-list">
+            <h2>Task History</h2>
+            <div id="tasks-cards">
+    
+            </div>
+          </section>
+        </main>
+        <aside class="right-sidebar">
+          <h2 class="summary">Summary</h2>
+          <div id="progress-container">
+            
+          </div>
+        </aside>
+      </div>
+      
+      
+    </div>
+  
+    <script src="/js/index.js" type="module"></script>
+  </body>
+</html>

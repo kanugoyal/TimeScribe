@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="manifest" href="./../public/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="./../public/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./../public/favicon-16x16.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="canonical" href="http://localhost:3001/index.html" />
+    <!--Need to change in future after deployment with deployment link-->
+    <meta property="og:site_name" content="TimeScribe Time Tracker" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="TimeScribe" />
+    <meta
+      property="og:description"
+      content="A quick, easy, no sign-ups needed timesheet time tracking app designed as a part of Web development Hackathon."
+    />
+    <meta property="og:url" content="http://localhost:3001/index.html" />
+    <!--Need to change in future after deployment with deployment link-->
+    <title>TimeScribe Analytics</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+
+  <body id="#analytics" >
+    <div class="container">
+      <header class="logo-header">
+        <div class="logo">
+          <img src="./../public/android-chrome-192x192.png" alt="TimeScribe" class="logo-img"> 
+          <p>TimeScribe</p>
+        </div>
+        
+        <nav aria-label="Main Navigation" role="navigation" class="navbar">
+          <ul class="nav-list">
+            <li><a href="/index.html" class="">Dashboard</a></li>
+            <li><a href="#analytics" class="">Analytics</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="body-container">
+        <main class="main-container">
+          <header class="header">
+            <h1 class="title">Anayltics</h1>
+          </header>
+        </main>
+      </div>
+    </div>
+    
+    <div class="canvas-container">
+      <canvas id="myChart"></canvas>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const loadChart = document.getElementById("myChart");
+      const tasks = getTasksFromLocalStorage();
+      const weekData = getWeekData(tasks);
+
+      new Chart(loadChart, {
+        type: "bar",
+        data: {
+          labels: weekData.dates,
+          datasets: [
+            {
+              label: "Hours Worked",
+              data: weekData.hours,
+              borderWidth: 2,
+              borderColor: "#21282c",
+              backgroundColor: "#6c88a7",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Hours Worked"
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Date"
+              }
+            }
+          }
+        }
+      });
+
+
+    function getTasksFromLocalStorage() {
+      return JSON.parse(localStorage.getItem("tasks")) || [];
+    }
+
+    function getWeekData(tasks) {
+      const today = new Date();
+      const dates = [];
+      const hours = [];
+
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateString = date.toISOString().split("T")[0];
+        dates.push(dateString);
+
+        let totalHours = 0;
+        tasks.forEach(task => {
+          if (task.taskDate === dateString) {
+            totalHours += calculateHours(task.timeStarted, task.timeStopped);
+          }
+        });
+        hours.push(totalHours.toFixed(2));
+      }
+
+      return { dates, hours };
+    }
+
+    function calculateHours(startTime, stopTime) {
+      const start = new Date(`1970-01-01T${startTime}`);
+      const stop = new Date(`1970-01-01T${stopTime}`);
+      const diff = stop.getTime() - start.getTime();
+      return diff / (1000 * 60 * 60); 
+    }
+  </script>
+  </body>
+</html>
